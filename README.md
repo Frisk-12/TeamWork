@@ -1,152 +1,120 @@
 # TeamWork
 Multi Agent System for Complex Tasks
 
-TeamWork is a Multi-Agent System designed to handle complex tasks. This repository contains the implementation of various agents and supervisors required to coordinate and execute tasks effectively.
+## Overview
+This project implements a multi-agent system for managing complex tasks and processes. The system is designed to leverage the strengths of different specialized agents to perform and supervise a variety of tasks efficiently. Each agent has a specific role and expertise, and a supervising agent coordinates the overall workflow.
 
-Table of Contents
+## Features
+- **Task Delegation**: The supervisor agent delegates tasks to specialized agents based on their roles and expertise.
+- **Collaboration**: Agents collaborate to complete tasks, ensuring high-quality outputs through a structured workflow.
+- **Customization**: Easily define new agents with specific roles, backstories, tools, resources, and task descriptions.
+- **Scalability**: The system can handle multiple agents and tasks, making it suitable for complex and large-scale operations.
 
-	•	Installation
-	•	Usage
-	•	Modules
-	•	Example
-	•	License
-	•	Contributing
-	•	Authors
+## Installation
+1. **Clone the repository**:
+    ```sh
+    git clone https://github.com/Frisk-12/multi-agent-task-management.git
+    cd multi-agent-task-management
+    ```
 
-Installation
+2. **Create a virtual environment** (optional but recommended):
+    ```sh
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
 
-To install the necessary dependencies, run:
+3. **Install dependencies**:
+    ```sh
+    pip install -r requirements.txt
+    ```
 
-pip install -r requirements.txt
+## Usage
+1. **Define the agents**:
+    Define the features for each agent, including their role, backstory, tools, resources, task description, and expected output.
 
-Usage
+2. **Create agent instances**:
+    Create instances of the `Agent` class using the defined features.
 
-You can start the system by running the main supervisor script:
+3. **Initialize the OpenAI API**:
+    Initialize the `openaiApis` class with your API key.
 
-python supervisor.py
+4. **Create a supervisor instance**:
+    Create an instance of the `Supervisor` class, passing in the list of agents and the OpenAI API instance.
 
-Modules
+5. **Execute a task**:
+    Formulate a question or task for the system and use the `supervisor.execution` method to get the response.
 
-agents.py
+    Example:
+    ```python
+    from agents import Agent
+    from Supervisor import Supervisor
+    from baseLLM import openaiApis
 
-Defines the Agent and Team classes.
+    # Define agents
+    agent1_f = {
+        'agent_role': 'Senior Translator',
+        'backstory': "Experienced translator with expertise in contextual accuracy.",
+        'tools': 'Your knowledge.',
+        'resources': '',
+        'task_description': 'Translate text accurately.',
+        'expected_output': 'A high-quality translation.'
+    }
 
-	•	Agent: Represents an individual agent with specific attributes and capabilities.
-	•	Attributes:
-	•	agent_role: Role of the agent.
-	•	backstory: Background story of the agent.
-	•	tools: Tools available to the agent.
-	•	resources: Resources available to the agent.
-	•	task_description: Description of the task assigned to the agent.
-	•	expected_output: Expected output from the agent.
-	•	Team: Represents a team of agents.
-	•	Methods:
-	•	agent_mapping(): Creates a mapping of agent roles to their backstories and task descriptions.
+    agent1 = Agent(agent1_f)
 
-agents_ini.py
+    agent2_f = {
+        'agent_role': 'Senior Quality Check',
+        'backstory': "Expert in ensuring translation quality and providing improvement suggestions.",
+        'tools': 'Your knowledge.',
+        'resources': '',
+        'task_description': 'Review translations and suggest improvements.',
+        'expected_output': 'A detailed quality report.'
+    }
 
-Contains the system messages for agents and supervisors.
+    agent2 = Agent(agent2_f)
 
-	•	DefaultAgentSystem: Generates a system message for a given agent.
-	•	Methods:
-	•	system(agent): Generates a system message for an agent based on their role and task description.
-	•	SupervisorSystem: Generates a system message for the AI supervisor.
-	•	Methods:
-	•	system(): Generates a system message for the AI supervisor to manage and coordinate the team.
+    # Initialize OpenAI API
+    ai = openaiApis()
 
-base.py
+    # Create supervisor instance
+    supervisor = Supervisor([agent1, agent2], ai)
 
-Initializes agents and sets up the supervisor.
+    # Define a task for the system
+    text = ("Sotto il suo aspetto spaventoso, Draco il drago aiutava i villaggi, "
+            "spegneva incendi boschivi con il suo respiro e guidava i viaggiatori smarriti "
+            "a casa con i suoi occhi luminosi e gentili.")
+    question = f"Translate the following text: {text}"
 
-	•	Initialization:
-	•	Creates instances of Agent with specific attributes.
-	•	Initializes the OpenAI API client.
-	•	Creates an instance of Supervisor with the agents and OpenAI API client.
-	•	Execution:
-	•	Provides an example of executing a supervision process to obtain a translation.
+    # Execute the task
+    response = supervisor.execution(question)
+    print(response)
+    ```
 
-baseLLM_wo_key.py
+## Project Structure
 
-Contains the OpenAI API interactions.
+multi-agent-task-management/
+├── agents.py # Defines the Agent and Team classes
+├── baseLLM.py # Implements the openaiApis class for API interaction
+├── supervisor.py # Implements the Supervisor class for task coordination
+├── main.py # Main script to set up agents and execute tasks
+├── requirements.txt # List of dependencies
+└── README.md # This README file
 
-	•	openaiApis: Handles OpenAI API requests.
-	•	Methods:
-	•	embeddings(text): Retrieves embeddings for the given text.
-	•	gptText(system, question, message, _format): Generates a response using the OpenAI API.
 
-supervisor.py
 
-Manages the supervision process of agents.
+## Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -m 'Add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a new Pull Request.
 
-	•	Supervisor: Manages the supervision of agents using OpenAI’s API.
-	•	Methods:
-	•	ask_agent(question, agent_role): Asks a specific agent a question based on their role.
-	•	add_memory(output): Adds a message to the memory log.
-	•	execution(question): Executes the supervision process for the given question.
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Example
+## Contact
+For any questions or suggestions, feel free to open an issue or contact the author at andesogus@gmail.com.
 
-Here is an example of how to use the system to perform a translation task:
 
-# Define the characteristics of the first agent
-agent1_f = {
-    'agent_role': 'Senior Translator',
-    'backstory': ("You're a seasoned translator, known for an unwavering "
-                  "commitment to precision, fluency and contextual accuracy, "
-                  "ensuring each translation captures the original's true essence."),
-    'tools': 'Your knowledge.',
-    'resources': '',
-    'task_description': 'Do the best translation you can.',
-    'expected_output': 'A well done translation.'
-}
 
-# Create the first agent instance
-agent1 = Agent(agent1_f)
-
-# Define the characteristics of the second agent
-agent2_f = {
-    'agent_role': 'Senior Quality Check',
-    'backstory': ("You're a seasoned translator, known for an unwavering "
-                  "commitment to precision, fluency and contextual accuracy, "
-                  "ensuring each translation captures the original's true essence. "
-                  "You are severe and critical but always outcome focused."),
-    'tools': 'Your knowledge.',
-    'resources': '',
-    'task_description': 'Make quality check on translations and give suggestions for improving.',
-    'expected_output': 'A well done report for improving translations.'
-}
-
-# Create the second agent instance
-agent2 = Agent(agent2_f)
-
-# Initialize the OpenAI API
-ai = openaiApis()
-
-# Create the supervisor instance with the two agents
-supervisor = Supervisor([agent1, agent2], ai)
-
-# Text to be translated
-text = ("Sotto il suo aspetto spaventoso, Draco il drago aiutava i villaggi, "
-        "spegneva incendi boschivi con il suo respiro e guidava i viaggiatori smarriti "
-        "a casa con i suoi occhi luminosi e gentili.")
-
-# Formulate the question for translation
-question = f"Traduci il seguente testo: {text}"
-
-# Execute the supervision process to obtain the translation
-response = supervisor.execution(question)
-
-# Print the obtained response
-print(response)
-
-License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-Contributing
-
-Contributions are welcome! Please read the CONTRIBUTING file for guidelines on how to contribute to this project.
-
-Authors
-
-	•	andreadesogus
