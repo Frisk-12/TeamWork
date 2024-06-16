@@ -93,10 +93,15 @@ This project implements a multi-agent system for managing complex tasks and proc
 ## Project Structure
 multi-agent-task-management/
 ├── agents.py # Defines the Agent and Team classes
+
 ├── baseLLM.py # Implements the openaiApis class for API interaction
+
 ├── supervisor.py # Implements the Supervisor class for task coordination
+
 ├── main.py # Main script to set up agents and execute tasks
+
 ├── requirements.txt # List of dependencies
+
 └── README.md # This README file
 
 
