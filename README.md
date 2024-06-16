@@ -1,11 +1,6 @@
 # TeamWork
 Multi Agent System for Complex Tasks
 
-
-With the content of all the provided files, here is a comprehensive README for the “TeamWork” repository:
-
-TeamWork
-
 TeamWork is a Multi-Agent System designed to handle complex tasks. This repository contains the implementation of various agents and supervisors required to coordinate and execute tasks effectively.
 
 Table of Contents
