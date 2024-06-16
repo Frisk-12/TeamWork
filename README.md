@@ -1,5 +1,6 @@
-\# TeamWork
+# TeamWork 
 Multi Agent System for Complex Tasks
+
 
 ## Overview
 This project implements a multi-agent system for managing complex tasks and processes. The system is designed to leverage the strengths of different specialized agents to perform and supervise a variety of tasks efficiently. Each agent has a specific role and expertise, and a supervising agent coordinates the overall workflow.
