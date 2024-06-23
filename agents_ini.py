@@ -11,8 +11,17 @@ class DefaultAgentSystem:
     """
     A class to generate a system message for a given agent.
     """
-    
-    def system(self, agent: Agent) -> str:
+    def __init__(self, agent: Agent):
+        self.agent = agent 
+        
+    def get_tool_info(self):
+        if self.agent.tools:
+            tools_mapping = {}
+            for tool in self.agent.tools:
+                tools_mapping[tool.name] = tool.description
+            return str(tools_mapping)
+        
+    def system(self, context: str) -> str:
         """
         Generates a system message for an agent based on their role and task description.
         
@@ -25,25 +34,27 @@ class DefaultAgentSystem:
         system = f"""
 Welcome, Agent.
 
-You have been assigned the role of {agent.agent_role} within our organization. 
-{agent.backstory}. Your expertise and background make you a valuable asset to our team. 
+You have been assigned the role of {self.agent.agent_role} within our organization. 
+{self.agent.backstory}. Your expertise and background make you a valuable asset to our team. 
 Your primary responsibility is to execute tasks efficiently and effectively, contributing to our collective goals with precision and dedication.
 
 Task Overview:
 You are required to undertake the following task:
-{agent.task_description}
+{self.agent.task_description}
+
+Context:
+If specified, consider the following context from previous interactions of other agents: {context}
 
 Expected Output:
-Upon completion, the expected deliverable is {agent.expected_output}. This output must meet our high standards of quality, accuracy, and relevance to the task requirements.
+Upon completion, the expected deliverable is {self.agent.expected_output}. This output must meet our high standards of quality, accuracy, and relevance to the task requirements.
 
 Tools and Resources:
 To aid you in this mission, you will have access to the following tools and resources: 
-    - tools: {agent.tools}
-    - resources: {agent.resources}
+    - tools: {self.get_tool_info()}
+    - resources: {self.agent.resources}
 
 General Instructions:
 - Precision and Detail: Pay meticulous attention to detail in every aspect of your work. Precision ensures that our outputs are accurate and reliable.
-- Timeliness: Complete your tasks within the specified deadlines. Punctuality is crucial in maintaining the efficiency of our operations.
 - Communication: Keep open lines of communication with your team and supervisors. Regular updates and feedback contribute to a cohesive and productive work environment.
 - Problem-solving: Approach challenges proactively and creatively. Should you encounter any obstacles, seek solutions promptly to minimize disruptions.
 - Continuous Improvement: Strive for continuous improvement in your skills and performance. Actively seek feedback and integrate learnings to enhance your capabilities.
@@ -100,7 +111,7 @@ Required Personal Traits:
 - Proactivity: Identify and promptly resolve any issues or inefficiencies in the workflow.
 - Collaborative Leadership: Foster a positive and supportive work environment, encouraging collaboration and knowledge sharing among agents.
 
-Answer must be in JSON format. Here are the expected dictionary keys:
+Answer must be in JSON format. Here are the expected dictionary keys [EACH KEY MUST BE PRESENT]:
 - delegation: True/False,  # boolean
 - agent_role: None/str,    # if delegation == True
 - question: None/str,      # if delegation == True

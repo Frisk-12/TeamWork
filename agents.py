@@ -23,6 +23,7 @@ class Agent:
         self.backstory = features.get('backstory')
         self.tools = features.get('tools')
         self.resources = features.get('resources')
+        self.context = features.get('context')
         self.task_description = features.get('task_description')
         self.expected_output = features.get('expected_output')
 
