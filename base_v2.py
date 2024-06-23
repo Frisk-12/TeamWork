@@ -98,11 +98,6 @@ ai = openaiApis()
 # Creazione dell'istanza del supervisore con i due agenti
 supervisor = Supervisor([agent1, agent2, agent3], ai)
 
-# Testo da tradurre
-text = ("Sotto il suo aspetto spaventoso, Draco il drago aiutava i villaggi, "
-        "spegneva incendi boschivi con il suo respiro e guidava i viaggiatori smarriti "
-        "a casa con i suoi occhi luminosi e gentili.")
-
 # Formulazione della domanda per la traduzione
 question = f"Puoi verificare la presenza e la robustezza della clausola di fallback?"
 
@@ -111,17 +106,3 @@ response = supervisor.execution(question)
 
 # Stampa della risposta ottenuta
 print(response)
-
-
-
-
-#                 response = ai.gptText(system = ("Sei un programmatore esperto e il tuo obiettivo è "
-#                                        "risolvere errori nel codice fornendo esclusivamente "
-#                                        "gli elementi necessari per procedere"),
-#                                       question = (f"Ho ricevuto il seguente errore: {e}. "
-#                                                   "Il codice è il seguente: "
-#                                                   "function_response = call_function_dynamically(function_to_call, function_args) "
-#                                                   "dove: "
-#                                                   "function_to_call = {function_to_call}"
-#                                                   "function_args = {function_args}"
-#                                                   "Riporta i function_args corretti. ").choices[0].message.content)
